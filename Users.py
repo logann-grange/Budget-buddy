@@ -1,5 +1,6 @@
 import mysql.connector
 from Compte_bancaires import Compte_bancaire
+import random
 
 class Users:
     def __init__(self, id_login):
@@ -16,7 +17,22 @@ class Users:
         self.cursor.close()
         
         
+    def créer_compte(self, id_login,solde_initial=0.00):
+        self.cursor = self.connexion.cursor()
+        numero_compte = self.generer_numero_compte()
+        self.cursor.execute("INSERT INTO compte_bancaire (login_id, numero_compte, solde) VALUES (%s, %s, %s)",
+        (id_login, numero_compte, solde_initial))
+        self.connexion.commit()
+        self.cursor.close()
         
+    def generer_numero_compte(self):
+        while True:
+            numero = "FR" + str(random.randint(10**15, 10**16 - 1))
+            self.cursor.execute("SELECT * FROM compte_bancaire WHERE numero_compte = %s", (numero,))
+            if not self.cursor.fetchone():
+                return numero        
+    
+    
     def choix_compte(self, numero_compte=1):
         for compte in self.comte_bancaire:
             if compte[2] == numero_compte:

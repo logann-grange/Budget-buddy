@@ -1,14 +1,7 @@
-import mysql.connector
-#from transaction import Transaction
+from bdd_connector import connexion
 from datetime import date
 
-connexion = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="banque",
-        )
-cursor = connexion.cursor()
+mydb, cursor = connexion()
 
 class Compte_bancaire:
     def __init__(self,id,login_id):
@@ -39,41 +32,41 @@ class Compte_bancaire:
         receveur = self.get_acount_from_id(id_receveur)
         receveur.solde += montant
         cursor.execute(f"UPDATE compte_bancaire SET solde = {self.solde} WHERE id = {self.id}")
-        connexion.commit()
+        mydb.commit()
         cursor.execute(f"UPDATE compte_bancaire SET solde = {receveur.solde} WHERE id = {receveur.id}")
-        connexion.commit()
+        mydb.commit()
         # Ajout dans la table transaction
         jour = date.today().strftime("%d/%m/%Y")
         cursor.execute(f"INSERT INTO transaction (type, description, expediteur_id, receveur_id, montant, date) VALUES ('transfert', '', {self.id}, {id_receveur}, {montant}, '{jour}')")
-        connexion.commit()
+        mydb.commit()
 
     def depot(self, montant) :
         self.solde += montant
         cursor.execute(f"UPDATE compte_bancaire SET solde = {self.solde} WHERE id = {self.id}")
-        connexion.commit()
+        mydb.commit()
         # Ajout dans la table transaction
         jour = date.today().strftime("%d/%m/%Y")
         print(jour)
         cursor.execute(f"INSERT INTO transaction (type, description, expediteur_id, receveur_id, montant, date) VALUES ('depot', '', {self.id}, {self.id}, {montant}, '{jour}')")
-        connexion.commit()
+        mydb.commit()
 
 
     def retrait(self, montant) :
         self.solde -= montant
         cursor.execute(f"UPDATE compte_bancaire SET solde = {self.solde} WHERE id = {self.id}")
-        connexion.commit()
+        mydb.commit()
         # Ajout dans la table transaction
         jour = date.today().strftime("%d/%m/%Y")
         cursor.execute(f"INSERT INTO transaction (type, description, expediteur_id, receveur_id, montant, date) VALUES ('retrait', '', {self.id}, {self.id}, {montant}, '{jour}')")
-        connexion.commit()
+        mydb.commit()
 
 
-#TEST :
-cursor.execute("SELECT * FROM compte_bancaire WHERE id = 1")
-result = cursor.fetchone() 
-print("result : ", result)
-compte = Compte_bancaire(result[0], result[1])
-print("avant :", compte.solde)
-#compte.depot(100)
-compte.transfert(2, 200)
-print("après :", compte.solde)
+# #TEST :
+# cursor.execute("SELECT * FROM compte_bancaire WHERE id = 1")
+# result = cursor.fetchone() 
+# print("result : ", result)
+# compte = Compte_bancaire(result[0], result[1])
+# print("avant :", compte.solde)
+# #compte.depot(100)
+# compte.transfert(2, 200)
+# print("après :", compte.solde)

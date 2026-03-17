@@ -3,20 +3,15 @@ import re
 import bcrypt
 import random
 from Users import Users
+from bdd_connector import connexion
+
+mydb, cursor = connexion()
 
 class Auth:
-    def __init__(self):
-        self.connexion = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="Texmex_1107",
-            database="banque",
-        )
-        self.cursor = self.connexion.cursor()
         
     def creer_compte(self, nom, prenom, email, mot_de_passe):
-        self.cursor.execute("SELECT * FROM login WHERE email = %s", (email,))
-        login = self.cursor.fetchone()
+        cursor.execute("SELECT * FROM login WHERE email = %s", (email,))
+        login = cursor.fetchone()
         
         hashed_password = bcrypt.hashpw(mot_de_passe.encode('utf-8'), bcrypt.gensalt())
         
@@ -41,25 +36,25 @@ class Auth:
         else:
             sql = "INSERT INTO login (Nom, Prenom, Email, MDP) VALUES (%s, %s, %s, %s)"
             val = (nom, prenom, email, hashed_password)
-            self.cursor.execute(sql, val)
-            self.connexion.commit()
+            cursor.execute(sql, val)
+            mydb.commit()
             numero_compte = self.generer_numero_compte()
-            self.cursor.execute("INSERT INTO compte_bancaire (login_id, numero_compte, solde) VALUES (LAST_INSERT_ID(), %s, %s)",
+            cursor.execute("INSERT INTO compte_bancaire (login_id, numero_compte, solde) VALUES (LAST_INSERT_ID(), %s, %s)",
             (numero_compte, 0.00))
-            self.connexion.commit()
-            self.cursor.close()
+            mydb.commit()
+            cursor.close()
             return "Compte créé avec succès."
         
     def generer_numero_compte(self):
         while True:
             numero = "FR" + str(random.randint(10**15, 10**16 - 1))
-            self.cursor.execute("SELECT * FROM compte_bancaire WHERE numero_compte = %s", (numero,))
-            if not self.cursor.fetchone():
+            cursor.execute("SELECT * FROM compte_bancaire WHERE numero_compte = %s", (numero,))
+            if not cursor.fetchone():
                 return numero    
         
     def se_connecter(self, email, mot_de_passe):
-        self.cursor.execute("SELECT * FROM login WHERE email = %s ", (email,))
-        login = self.cursor.fetchone()
+        cursor.execute("SELECT * FROM login WHERE email = %s ", (email,))
+        login = cursor.fetchone()
         if not login:
             return "Email ou mot de passe incorrect.", None
         

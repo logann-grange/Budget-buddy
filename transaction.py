@@ -1,12 +1,6 @@
-import mysql.connector
+from bdd_connector import connexion
 
-mydb = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "",
-    database = "Banque"
-)
-cursor = mydb.cursor()
+mydb, cursor = connexion()
 
 class Transaction() :
 

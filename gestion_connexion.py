@@ -2,6 +2,7 @@ import mysql.connector
 import re
 import bcrypt
 import random
+from Users import Users
 
 class Auth:
     def __init__(self):
@@ -64,11 +65,13 @@ class Auth:
         
         
         if bcrypt.checkpw(mot_de_passe.encode('utf-8'), login[4].encode('utf-8')):
-            return "Connexion réussie.", login[0]
+            User=Users(login[0])
+            return "Connexion réussie.", User.listage_compte
         else:
             return "Mot de passe incorrect.", None
 
 
 auth=Auth()
-success, login_id = auth.se_connecter("john.doe@example.com", "Motdepasse123!")
-print(success, login_id)
+success, comptes = auth.se_connecter("john.doe@example.com", "Motdepasse123!")
+print(success)
+print(comptes)

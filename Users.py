@@ -1,8 +1,8 @@
 import mysql.connector
-import Compte_bancaires
+from Compte_bancaires import Compte_bancaire
 
 class Users:
-    def __init__(self,id_login):
+    def __init__(self, id_login):
         self.connexion = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -10,7 +10,7 @@ class Users:
             database="banque",
         )
         self.cursor = self.connexion.cursor()
-        self.cursor.execute("SELECT  COUNT(*) FROM compte_bancaire WHERE id_login = %s", (id_login,))
+        self.cursor.execute("SELECT COUNT(*) FROM compte_bancaire WHERE login_id = %s", (id_login,))
         self.nombre_compte = self.cursor.fetchall()
         self.listage_compte = self.listage_compte(id_login,self.nombre_compte[0][0])
         self.cursor.close()
@@ -26,5 +26,5 @@ class Users:
     def listage_compte(self, id_login,nombre_compte):
         liste_compte = []
         for i in range(nombre_compte):
-            liste_compte.append(Compte_bancaires.Compte_bancaire(i+1, id_login))
+            liste_compte.append(Compte_bancaire(i+1, id_login))
         return liste_compte            

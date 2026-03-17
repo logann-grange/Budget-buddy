@@ -23,12 +23,12 @@ def creer_bdd():
                     solde DECIMAL(10, 2) NOT NULL,
                     FOREIGN KEY (login_id) REFERENCES login(id)
                     )""")
-    cursor.execute("""CREATE TABLE IF NOT EXISTS transactions (
+    cursor.execute("""CREATE TABLE IF NOT EXISTS transaction (
                     id INT AUTO_INCREMENT PRIMARY KEY, 
                     type varchar(255) NOT NULL,
                     description text NOT NULL,
                     montant DECIMAL(10, 2) NOT NULL,
-                    date DATETIME NOT NULL,
+                    date DATETIME NOT NULL
                     )""")
     connexion.commit()
-    cursor.close()
+    cursor.close()  

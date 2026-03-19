@@ -1,4 +1,3 @@
-import mysql.connector
 import re
 import bcrypt
 import random
@@ -67,7 +66,7 @@ class Auth:
 
 
 auth=Auth()
-print(auth.creer_compte("Test", "TEST", "Test.TEST@example.com", "Test_12345"))
+print(auth.creer_compte("TestTest", "TESTTEST", "Test2.TEST2@example.com", "Test2_12345"))
 #success, comptes = auth.se_connecter("Test.TEST@example.com", "Test_1234")
 #print(success)
 #print(comptes)

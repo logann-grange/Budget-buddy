@@ -1,4 +1,3 @@
-import mysql.connector
 import Compte_bancaires
 from transaction import Transaction
 from bdd_connector import connexion
@@ -32,5 +31,4 @@ class Users:
     
 
 #TEST
-
-user = Users(1)
+#user = Users(1)

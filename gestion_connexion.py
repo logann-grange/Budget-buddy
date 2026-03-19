@@ -64,4 +64,4 @@ class Auth:
             return "Mot de passe incorrect.", None
 
 
-auth=Auth()
+auth = Auth()

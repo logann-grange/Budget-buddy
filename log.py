@@ -1,9 +1,11 @@
 import customtkinter as ctk
+from gestion_connexion import Auth
 
 class Log:
     def __init__(self, display):
         self.display = display
         self.frame = None
+        self.auth = Auth()
 
     def afficher(self):
         self.frame = ctk.CTkFrame(self.display, width=1080, height=720, fg_color="transparent")
@@ -47,38 +49,41 @@ class Log:
     def changement_etat_connexion(self):
         from menu import Menu
         from menu_bank import MenuBank
-        import interface
 
         mail = self.entry_mail.get()
-
-        if not self.verif_mail(mail):
+        mdp = self.entry_mdp.get()
+        message, user = self.auth.se_connecter(mail, mdp)
+        
+        if user is None:
+            self.label.configure(text=message, text_color="red")
             return
-
+        
         self.frame.destroy()
-
+        
         if "@labank.com" in mail:
             menu_bank = MenuBank(self.display)
             menu_bank.afficher()
-        elif "@" in mail and "." in mail:
+        else:
             menu = Menu(self.display)
-            menu.afficher()
+            menu.afficher(user)
 
     def changement_etat_inscription(self):
         from menu import Menu
         from menu_bank import MenuBank
-        import interface
 
         mail = self.entry_mail_inscription.get()
         nom = self.entry_nom.get()
         prenom = self.entry_prenom.get()
+        mdp = self.entry_mdp_inscription.get()
 
-        if not self.verif_mail(mail):
+        message = self.auth.creer_compte(nom, prenom, mail, mdp)
+        if message != "Compte créé avec succès.":
+            self.label.configure(text=message, text_color="red")
             return
-
-        if nom == "" or prenom == "":
-            self.label.configure(text="Veuillez remplir tous les champs", text_color="red")
-            return
-
+        
+        message, user = self.auth.se_connecter(mail, mdp)
+        
+        
         self.frame.destroy()
 
         if "@labank.com" in mail:
@@ -86,4 +91,4 @@ class Log:
             menu_bank.afficher()
         elif "@" in mail and "." in mail:
             menu = Menu(self.display)
-            menu.afficher()
+            menu.afficher(user)

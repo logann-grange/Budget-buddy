@@ -1,18 +1,21 @@
 import customtkinter as ctk
 
-nom_client = ""
-solde_client = "0€"
 
 class Menu:
     def __init__(self, display):
         self.display = display
         self.frame = None
 
-    def afficher(self):
+    def afficher(self, user):
+        self.user = user
+        
+        compte =self.user.list_compte[0]
+        solde_affiche = f"*{compte.solde}€*" if compte else "0€"
+        
         self.frame = ctk.CTkFrame(self.display, width=1080, height=720, fg_color="transparent")
         self.frame.place(x=0, y=0)
 
-        self.label = ctk.CTkLabel(self.frame, text=f"Bonjour ! {nom_client}", font=("Helvetica", 32, "bold"))
+        self.label = ctk.CTkLabel(self.frame, text=f"Bonjour !", font=("Helvetica", 32, "bold"))
         self.label.place(x=600, y=50)
 
         logout_button = ctk.CTkButton(self.frame, text="Déconnecter", command=self.deconnecter, 
@@ -25,7 +28,7 @@ class Menu:
         solde_label = ctk.CTkLabel(solde_frame, text="Solde", font=("Helvetica", 16, "bold"), text_color="black")
         solde_label.place(x=10, y=10)
         
-        solde_value = ctk.CTkLabel(solde_frame, text=solde_client, font=("Helvetica", 20, "bold"), text_color="red")
+        solde_value = ctk.CTkLabel(solde_frame, text=solde_affiche, font=("Helvetica", 20, "bold"), text_color="red")
         solde_value.place(x=10, y=50)
 
         historique_button = ctk.CTkButton(self.frame, text="Historique\n\nOpérations\nrécentes...", 
@@ -49,7 +52,7 @@ class Menu:
         from historique import Historique
         self.frame.destroy()
         historique = Historique(self.display)
-        historique.afficher()
+        historique.afficher(self.user)
 
     def deconnecter(self):
         from log import Log

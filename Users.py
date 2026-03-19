@@ -1,5 +1,6 @@
 from Compte_bancaires import Compte_bancaire
 from bdd_connector import connexion
+import mysql.connector
 
 mydb, cursor = connexion()
 
@@ -24,5 +25,8 @@ class Users:
         return liste_compte
 
     def refresh_historique(self):
-        cursor.execute("SELECT * FROM transaction")
-        return cursor.fetchall()
+        try:
+            cursor.execute("SELECT * FROM transaction")
+            return cursor.fetchall()
+        except mysql.connector.Error:
+            return []

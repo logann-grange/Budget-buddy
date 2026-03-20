@@ -351,11 +351,11 @@ class Menu:
     # ------------------------------------------------------------------ #
  
     def ouvrir_historique(self):
-        from historique import Historique
+        from historique_affichage import Historique_affichage
         self._fermer_modal()
         self.frame.destroy()
-        historique = Historique(self.display)
-        historique.afficher(self.user)
+        historique_ = Historique_affichage(self.display)
+        historique_.afficher(self.user)
  
     def deconnecter(self):
         from log import Log

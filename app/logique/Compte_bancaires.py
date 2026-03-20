@@ -1,4 +1,4 @@
-from bdd_connector import connexion
+from app.donnees.bdd_connector import connexion
 from datetime import date
 
 

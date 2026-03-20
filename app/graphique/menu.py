@@ -213,7 +213,7 @@ class Menu:
         msg.place(x=20, y=215)
  
         def valider():
-            from bdd_connector import connexion
+            from app.donnees.bdd_connector import connexion
             numero = entry_numero.get().strip()
             try:
                 montant = float(entry_montant.get().replace(",", "."))
@@ -265,7 +265,7 @@ class Menu:
  
  
     def _afficher_graphique(self):
-        from bdd_connector import connexion
+        from app.donnees.bdd_connector import connexion
         # Nettoyage du frame
         for widget in self.graphique_frame.winfo_children():
             widget.destroy()
@@ -351,14 +351,14 @@ class Menu:
     # ------------------------------------------------------------------ #
  
     def ouvrir_historique(self):
-        from historique_affichage import Historique_affichage
+        from app.graphique.historique_affichage import Historique_affichage
         self._fermer_modal()
         self.frame.destroy()
         historique_ = Historique_affichage(self.display)
         historique_.afficher(self.user)
  
     def deconnecter(self):
-        from log import Log
+        from app.commun.log import Log
         self._fermer_modal()
         self.frame.destroy()
         log = Log(self.display)

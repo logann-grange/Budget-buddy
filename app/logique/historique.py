@@ -1,5 +1,5 @@
-from transaction import Transaction
-from bdd_connector import connexion
+from app.logique.transaction import Transaction
+from app.donnees.bdd_connector import connexion
 
 mydb, cursor = connexion()
 

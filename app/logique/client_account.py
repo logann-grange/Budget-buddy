@@ -46,13 +46,13 @@ class ClientAccount:
         graphique_placeholder.place(x=400, y=280)
 
     def ouvrir_historique(self):
-        from historique_client import HistoriqueClient
+        from app.logique.historique_client import HistoriqueClient
         self.frame.destroy()
         historique = HistoriqueClient(self.display, self.client)
         historique.afficher()
 
     def retour_menu(self):
-        from menu_bank import MenuBank
+        from app.graphique.menu_bank import MenuBank
         self.frame.destroy()
         menu = MenuBank(self.display)
         menu.afficher()

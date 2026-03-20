@@ -41,7 +41,7 @@ class HistoriqueClient:
         revenus_text.place(x=20, y=70)
 
     def retour_compte(self):
-        from client_account import ClientAccount
+        from app.logique.client_account import ClientAccount
         self.frame.destroy()
         compte = ClientAccount(self.display, self.client)
         compte.afficher()

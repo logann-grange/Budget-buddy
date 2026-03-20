@@ -40,13 +40,13 @@ class MenuBank:
 
 
     def ouvrir_compte_client(self, client):
-        from client_account import ClientAccount
+        from app.logique.client_account import ClientAccount
         self.frame.destroy()
         compte = ClientAccount(self.display, client)
         compte.afficher()
 
     def deconnecter(self):
-        from log import Log
+        from app.commun.log import Log
         self.frame.destroy()
         log = Log(self.display)
         log.afficher()

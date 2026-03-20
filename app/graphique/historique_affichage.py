@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from historique import Historique
+from app.logique.historique import Historique
 
 class Historique_affichage:
     def __init__(self, display):
@@ -110,7 +110,7 @@ class Historique_affichage:
                          text_color="green", font=("Helvetica", 12), anchor="w"
                          ).pack(anchor="w", pady=2, padx=5)
     def retour_menu(self):
-        from menu import Menu
+        from app.graphique.menu import Menu
         self.frame.destroy()
         menu = Menu(self.display)
         menu.afficher(self.user)

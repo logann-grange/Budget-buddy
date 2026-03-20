@@ -1,7 +1,7 @@
 import customtkinter as ctk
-from log import *
-from menu import *
-from menu_bank import *
+from app.commun.log import *
+from app.graphique.menu import *
+from app.graphique.menu_bank import *
 
 LOG = "log"
 MENU = "menu"

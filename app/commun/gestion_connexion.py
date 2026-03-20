@@ -1,8 +1,8 @@
 import re
 import bcrypt
 import random
-from Users import Users
-from bdd_connector import connexion
+from app.logique.Users import Users
+from app.donnees.bdd_connector import connexion
 
 mydb, cursor = connexion()
 

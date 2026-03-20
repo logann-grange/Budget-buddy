@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from gestion_connexion import Auth
+from app.commun.gestion_connexion import Auth
 
 class Log:
     def __init__(self, display):
@@ -47,8 +47,8 @@ class Log:
         return True
 
     def changement_etat_connexion(self):
-        from menu import Menu
-        from menu_bank import MenuBank
+        from app.graphique.menu import Menu
+        from app.graphique.menu_bank import MenuBank
 
         mail = self.entry_mail.get()
         mdp = self.entry_mdp.get()
@@ -68,8 +68,8 @@ class Log:
             menu.afficher(user)
 
     def changement_etat_inscription(self):
-        from menu import Menu
-        from menu_bank import MenuBank
+        from app.graphique.menu import Menu
+        from app.graphique.menu_bank import MenuBank
 
         mail = self.entry_mail_inscription.get()
         nom = self.entry_nom.get()

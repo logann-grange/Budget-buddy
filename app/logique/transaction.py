@@ -1,5 +1,5 @@
-from bdd_connector import connexion
-from Compte_bancaires import Compte_bancaire
+from app.donnees.bdd_connector import connexion
+from app.logique.Compte_bancaires import Compte_bancaire
 
 mydb, cursor = connexion()
 
